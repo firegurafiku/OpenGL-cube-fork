@@ -5,6 +5,8 @@
 #include <QOpenGLWindow>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QVector>
+#include <fstream>
 
 class MainWindow : public QOpenGLWindow
 {
@@ -25,6 +27,10 @@ protected:
 private:
     QPoint m_position;
     QVector2D diff;
+    void loadVertexData();
+    QVector<GLfloat> vertices;
+    QVector<GLfloat> colors;
+    QVector<GLfloat> normals;
 };
 
 #endif // MAINWINDOW_H

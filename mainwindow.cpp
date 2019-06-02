@@ -12,6 +12,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initializeGL()
 {
+    loadVertexData();
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
@@ -21,107 +22,30 @@ void MainWindow::initializeGL()
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glColorMaterial(GL_FRONT, GL_AMBIENT);
-    static GLfloat lightPosition[4] = { 10, 10, 0, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    glEnable(GL_COLOR_MATERIAL);
+
+    GLfloat light_ambient[] =  { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light_diffuse[] =  { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_specular[] = { 1.0, 0.0, 0.0, 1.0 };
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+    GLfloat mat_shininess[]={50.0};
+
+    glMaterialfv(GL_FRONT, GL_SPECULAR, light_specular);
+    glMaterialfv(GL_FRONT,GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 }
 
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    GLfloat vertices[] = {
-        -1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-    };
-    GLfloat colors[] = {
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-    };
-    GLfloat normals[] = {
-        0.0f,  0.0f,  1.0f,
-        0.0f,  0.0f,  1.0f,
-        0.0f,  0.0f,  1.0f,
-        0.0f,  0.0f,  1.0f,
-
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-
-         0.0f, 1.0f, 0.0f,
-         0.0f, 1.0f, 0.0f,
-         0.0f, 1.0f, 0.0f,
-         0.0f, 1.0f, 0.0f,
-
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-
-
-    };
-
-    glColorPointer(4, GL_FLOAT, 0, colors);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glNormalPointer(GL_FLOAT, 0, normals);
+    glColorPointer(4, GL_FLOAT, 0, colors.data());
+    glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+    glNormalPointer(GL_FLOAT, 0, normals.data());
     glDrawArrays(GL_QUADS, 0, 24);
 }
 
@@ -131,7 +55,7 @@ void MainWindow::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     qreal aspect_ratio = qreal(w) / h;
-    glOrtho(-2 * aspect_ratio, 2 * aspect_ratio, -2, 2, 2, -2);
+    glOrtho(-1 * aspect_ratio, 1 * aspect_ratio, -1, 1, 1, -1);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -178,5 +102,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
             update();
             break;
+    }
+}
+
+void MainWindow::loadVertexData()
+{
+    std::ifstream fin("vertices.txt");
+    GLfloat x;
+    while(fin >> x){
+        vertices.push_back(x);
+    }
+    fin.close();
+    fin = std::ifstream("colors.txt");
+    while(fin >> x){
+        colors.push_back(x);
+    }
+    fin.close();
+    fin = std::ifstream("normals.txt");
+    while(fin >> x){
+        normals.push_back(x);
     }
 }
