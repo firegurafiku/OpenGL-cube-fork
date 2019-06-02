@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QOpenGLWindow>
 #include <QMouseEvent>
+#include <QKeyEvent>
 
 class MainWindow : public QOpenGLWindow
 {
@@ -20,6 +21,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 private:
     QPoint m_position;
     QVector2D diff;

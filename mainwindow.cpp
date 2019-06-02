@@ -17,55 +17,119 @@ void MainWindow::initializeGL()
     glShadeModel(GL_SMOOTH);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    glEnable(GL_COLOR_ARRAY);
-    glEnable(GL_VERTEX_ARRAY);
-//    glEnable(GL_COLOR_MATERIAL);
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
-//    glColorMaterial(GL_FRONT, GL_EMISSION);
-//    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
-//    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glColorMaterial(GL_FRONT, GL_AMBIENT);
+    static GLfloat lightPosition[4] = { 10, 10, 0, 1.0 };
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 }
 
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glNormal3f(0.0f, 0.0f, 1.0f);
 
     GLfloat vertices[] = {
         -0.5f, -0.5f,  0.5f,
          0.5f, -0.5f,  0.5f,
          0.5f,  0.5f,  0.5f,
         -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
+
+         0.5f, -0.5f,  0.5f,
          0.5f, -0.5f, -0.5f,
          0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f,  0.5f,
+
+         0.5f,  0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
         -0.5f,  0.5f, -0.5f,
-    };
 
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+
+        -0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+
+        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, 0.5f,
+
+    };
     GLfloat colors[] = {
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
+    };
+    GLfloat normals[] = {
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+
+         0.0f, 1.0f, 0.0f,
+         0.0f, 1.0f, 0.0f,
+         0.0f, 1.0f, 0.0f,
+         0.0f, 1.0f, 0.0f,
+
+        0.0f, -1.0f, 0.0f,
+        0.0f, -1.0f, 0.0f,
+        0.0f, -1.0f, 0.0f,
+        0.0f, -1.0f, 0.0f,
+
+
     };
 
-    GLubyte indices[] = {
-        0, 1, 2, 3,
-        1, 5, 6, 2,
-        5, 4, 7, 6,
-        0, 4, 5, 1,
-        0, 3, 7, 4,
-        3, 2, 6, 7
-    };
     glColorPointer(4, GL_FLOAT, 0, colors);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices);
+    glNormalPointer(GL_FLOAT, 0, normals);
+    glDrawArrays(GL_QUADS, 0, 24);
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -75,6 +139,7 @@ void MainWindow::resizeGL(int w, int h)
     glLoadIdentity();
     qreal aspect_ratio = qreal(w) / h;
     glOrtho(-2 * aspect_ratio, 2 * aspect_ratio, -2, 2, 2, -2);
+    glMatrixMode(GL_MODELVIEW);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -105,6 +170,20 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     diff = QVector2D(event->pos() - m_position);
     m_position = event->pos();
     glRotatef(diff.length() / 2.0f, diff.y(), diff.x(), 0.0f);
-
     update();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()){
+        case Qt::Key_L:
+            if(glIsEnabled(GL_LIGHTING)){
+                glDisable(GL_LIGHTING);
+            }else{
+                glEnable(GL_LIGHTING);
+            }
+
+            update();
+            break;
+    }
 }
