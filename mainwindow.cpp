@@ -44,7 +44,7 @@ void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
-    glDrawArrays(GL_QUADS, 0, 24);
+    glDrawArrays(GL_QUADS, 0, numberOfVertices);
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -106,6 +106,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::loadVertexData()
 {
     std::ifstream fin("vertices.txt");
+    fin >> numberOfVertices;
     GLfloat x;
     while(fin >> x){
         vertices.push_back(x);

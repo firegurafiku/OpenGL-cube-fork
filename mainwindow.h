@@ -29,6 +29,7 @@ private:
     QVector2D diff;
     void loadVertexData();
     QVector<GLfloat> vertices;
+    int numberOfVertices;
 };
 
 #endif // MAINWINDOW_H
