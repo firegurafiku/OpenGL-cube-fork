@@ -43,9 +43,7 @@ void MainWindow::initializeGL()
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColorPointer(4, GL_FLOAT, 0, colors.data());
-    glVertexPointer(3, GL_FLOAT, 0, vertices.data());
-    glNormalPointer(GL_FLOAT, 0, normals.data());
+    glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
     glDrawArrays(GL_QUADS, 0, 24);
 }
 
@@ -111,15 +109,5 @@ void MainWindow::loadVertexData()
     GLfloat x;
     while(fin >> x){
         vertices.push_back(x);
-    }
-    fin.close();
-    fin = std::ifstream("colors.txt");
-    while(fin >> x){
-        colors.push_back(x);
-    }
-    fin.close();
-    fin = std::ifstream("normals.txt");
-    while(fin >> x){
-        normals.push_back(x);
     }
 }

@@ -29,8 +29,6 @@ private:
     QVector2D diff;
     void loadVertexData();
     QVector<GLfloat> vertices;
-    QVector<GLfloat> colors;
-    QVector<GLfloat> normals;
 };
 
 #endif // MAINWINDOW_H
