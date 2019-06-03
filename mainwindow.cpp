@@ -28,8 +28,8 @@ void MainWindow::initializeGL()
 
     GLfloat light_ambient[] =  { 0.0, 0.0, 0.0, 1.0 };
     GLfloat light_diffuse[] =  { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_specular[] = { 1.0, 0.0, 0.0, 1.0 };
-    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[]={50.0};
 
     glMaterialfv(GL_FRONT, GL_SPECULAR, light_specular);
