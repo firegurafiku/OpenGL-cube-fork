@@ -18,7 +18,6 @@ void MainWindow::initializeGL()
     glShadeModel(GL_SMOOTH);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
@@ -43,7 +42,8 @@ void MainWindow::initializeGL()
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
+    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+    glInterleavedArrays(GL_N3F_V3F, 0, vertices.data());
     glDrawArrays(GL_QUADS, 0, numberOfVertices);
 }
 
@@ -108,7 +108,7 @@ void MainWindow::loadVertexData()
     std::ifstream fin("vertices.txt");
     fin >> numberOfVertices;
     GLfloat x;
-    vertices.resize(numberOfVertices * 10);
+    vertices.resize(numberOfVertices * 6);
     int i = 0;
     while(fin >> x){
         vertices[i++] = x;
