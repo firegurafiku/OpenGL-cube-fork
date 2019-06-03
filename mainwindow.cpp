@@ -108,7 +108,9 @@ void MainWindow::loadVertexData()
     std::ifstream fin("vertices.txt");
     fin >> numberOfVertices;
     GLfloat x;
+    vertices.resize(numberOfVertices * 10);
+    int i = 0;
     while(fin >> x){
-        vertices.push_back(x);
+        vertices[i++] = x;
     }
 }
