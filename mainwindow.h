@@ -6,7 +6,8 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QVector>
-#include <fstream>
+#include <QFile>
+#include <QTextStream>
 
 class MainWindow : public QOpenGLWindow
 {

@@ -100,7 +100,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             }else{
                 glEnable(GL_LIGHTING);
             }
-
             update();
             break;
     }
@@ -108,12 +107,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::loadVertexData()
 {
-    std::ifstream fin("vertices.txt");
-    fin >> numberOfVertices;
-    GLfloat x;
+    QFile vertexDataFile("vertices.txt");
+    vertexDataFile.open(QFile::ReadOnly | QFile::Text);
+
+    QTextStream in(&vertexDataFile);
+    in >> numberOfVertices;
     vertices.resize(numberOfVertices * 6);
     int i = 0;
-    while(fin >> x){
-        vertices[i++] = x;
+    while(!in.atEnd()){
+        in >> vertices[i++];
     }
 }
