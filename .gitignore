@@ -3,3 +3,4 @@
 Makefile
 Makefile.Debug
 Makefile.Release
+*.o
