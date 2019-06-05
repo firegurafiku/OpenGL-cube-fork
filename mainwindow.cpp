@@ -13,13 +13,13 @@ MainWindow::~MainWindow()
 void MainWindow::initializeGL()
 {
     loadVertexData();
-    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glDepthRange(1.0, -1.0);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -31,10 +31,10 @@ void MainWindow::initializeGL()
     GLfloat light_position[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[]={50};
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, light_specular);
-    glMaterialfv(GL_FRONT,GL_SHININESS, mat_shininess);
-    glMaterialfv(GL_FRONT,GL_AMBIENT, light_ambient);
-    glMaterialfv(GL_FRONT,GL_DIFFUSE, light_diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, light_specular);
+    glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS, mat_shininess);
+    glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT, light_ambient);
+    glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE, light_diffuse);
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -46,7 +46,7 @@ void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-    glInterleavedArrays(GL_N3F_V3F, 0, vertices.data());
+    glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
     glDrawArrays(GL_QUADS, 0, numberOfVertices);
 }
 
@@ -95,10 +95,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()){
         case Qt::Key_L:
-            if(glIsEnabled(GL_LIGHTING)){
-                glDisable(GL_LIGHTING);
+            if(glIsEnabled(GL_LIGHT0)){
+                glDisable(GL_LIGHT0);
             }else{
-                glEnable(GL_LIGHTING);
+                glEnable(GL_LIGHT0);
             }
             update();
             break;
@@ -112,7 +112,7 @@ void MainWindow::loadVertexData()
 
     QTextStream in(&vertexDataFile);
     in >> numberOfVertices;
-    vertices.resize(numberOfVertices * 6);
+    vertices.resize(numberOfVertices * 10);
     int i = 0;
     while(!in.atEnd()){
         in >> vertices[i++];
