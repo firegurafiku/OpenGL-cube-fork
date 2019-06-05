@@ -16,6 +16,7 @@ void MainWindow::initializeGL()
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glDepthRange(1.0, -1.0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -28,7 +29,7 @@ void MainWindow::initializeGL()
     GLfloat light_ambient[] =  { 0.2, 0.2, 0.2, 1.0 };
     GLfloat light_diffuse[] =  { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_position[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     GLfloat mat_shininess[]={50};
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, light_specular);
