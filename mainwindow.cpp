@@ -14,7 +14,7 @@ void MainWindow::initializeGL()
 {
     loadVertexData();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glDepthRange(1.0, -1.0);
+    glDepthRange(1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
