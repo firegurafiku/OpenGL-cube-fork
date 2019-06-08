@@ -48,7 +48,7 @@ void MainWindow::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
     glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
-    glDrawArrays(GL_QUADS, 0, numberOfVertices);
+    glDrawArrays(GL_TRIANGLES, 0, numberOfVertices);
 }
 
 void MainWindow::resizeGL(int w, int h)

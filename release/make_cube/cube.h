@@ -9,4 +9,5 @@ private:
     int segmentation;
     std::stringstream vertices;
     void writeData(const std::string& color, const std::string& normal, float x, float y, float z);
+    int count;
 };

@@ -8,13 +8,14 @@ void Cube::writeData(const std::string& color,
                           std::setw(width) << y << ' ' <<
                           std::setw(width) << z << ' ' <<
                           std::endl;
+    ++count;
 }
 
 Cube::Cube(int segmentation)
     : segmentation(segmentation)
 {
+    count = 0;
     vertices << std::fixed << std::setprecision(10);
-    int count = 0;
     float curr_x;
     float curr_y;
     float curr_z;
@@ -31,10 +32,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x,        curr_y,        curr_z);
             writeData(color, normal, curr_x + step, curr_y,        curr_z);
-            writeData(color, normal, curr_x + step, curr_y + step, curr_z);
             writeData(color, normal, curr_x,        curr_y + step, curr_z);
+            writeData(color, normal, curr_x,        curr_y + step, curr_z);
+            writeData(color, normal, curr_x + step, curr_y,        curr_z);
+            writeData(color, normal, curr_x + step, curr_y + step, curr_z);
             curr_x += step;
-            count += 4;
         }
         curr_y += step;
     }
@@ -49,10 +51,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x,        curr_y,        curr_z);
             writeData(color, normal, curr_x,        curr_y + step, curr_z);
-            writeData(color, normal, curr_x + step, curr_y + step, curr_z);
             writeData(color, normal, curr_x + step, curr_y,        curr_z);
+            writeData(color, normal, curr_x + step, curr_y,        curr_z);
+            writeData(color, normal, curr_x,        curr_y + step, curr_z);
+            writeData(color, normal, curr_x + step, curr_y + step, curr_z);
             curr_x += step;
-            count += 4;
         }
         curr_y += step;
     }
@@ -67,10 +70,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x, curr_y,        curr_z       );
             writeData(color, normal, curr_x, curr_y,        curr_z + step);
-            writeData(color, normal, curr_x, curr_y + step, curr_z + step);
             writeData(color, normal, curr_x, curr_y + step, curr_z       );
+            writeData(color, normal, curr_x, curr_y + step, curr_z       );
+            writeData(color, normal, curr_x, curr_y,        curr_z + step);
+            writeData(color, normal, curr_x, curr_y + step, curr_z + step);
             curr_z += step;
-            count += 4;
         }
         curr_y += step;
     }
@@ -84,10 +88,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x, curr_y,        curr_z       );
             writeData(color, normal, curr_x, curr_y + step, curr_z       );
-            writeData(color, normal, curr_x, curr_y + step, curr_z + step);
             writeData(color, normal, curr_x, curr_y,        curr_z + step);
+            writeData(color, normal, curr_x, curr_y,        curr_z + step);
+            writeData(color, normal, curr_x, curr_y + step, curr_z       );
+            writeData(color, normal, curr_x, curr_y + step, curr_z + step);
             curr_z += step;
-            count += 4;
         }
         curr_y += step;
     }
@@ -101,10 +106,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x,        curr_y, curr_z       );
             writeData(color, normal, curr_x,        curr_y, curr_z + step);
-            writeData(color, normal, curr_x + step, curr_y, curr_z + step);
             writeData(color, normal, curr_x + step, curr_y, curr_z       );
+            writeData(color, normal, curr_x + step, curr_y, curr_z       );
+            writeData(color, normal, curr_x,        curr_y, curr_z + step);
+            writeData(color, normal, curr_x + step, curr_y, curr_z + step);
             curr_z += step;
-            count += 4;
         }
         curr_x += step;
     }
@@ -118,10 +124,11 @@ Cube::Cube(int segmentation)
         for(int j = 0; j < segmentation; ++j){
             writeData(color, normal, curr_x,        curr_y, curr_z       );
             writeData(color, normal, curr_x + step, curr_y, curr_z       );
-            writeData(color, normal, curr_x + step, curr_y, curr_z + step);
             writeData(color, normal, curr_x,        curr_y, curr_z + step);
+            writeData(color, normal, curr_x,        curr_y, curr_z + step);
+            writeData(color, normal, curr_x + step, curr_y, curr_z       );
+            writeData(color, normal, curr_x + step, curr_y, curr_z + step);
             curr_z += step;
-            count += 4;
         }
         curr_x += step;
     }
