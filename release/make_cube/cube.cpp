@@ -6,7 +6,7 @@ void Cube::writeData(const std::string& color,
     int width = 13;
     vertices << color << normal << std::setw(width) << x << ' ' <<
                           std::setw(width) << y << ' ' <<
-                          std::setw(width) << z << ' ' <<
+                          std::setw(width) << z <<
                           std::endl;
     ++count;
 }
