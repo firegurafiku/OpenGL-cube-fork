@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+#define RED 1.0f, 0.0f, 0.0f
+#define GREEN 0.0f, 1.0f, 0.0f
+#define BLUE 0.0f, 0.0f, 1.0f
+#define YELLOW 1.0f, 1.0f, 0.0f
 
 MainWindow::MainWindow(QWidget *parent)
 {
@@ -10,45 +14,50 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::drawLayer(int n)
+{
+    GLfloat x = -0.5f;
+    GLfloat y = 0.5f;
+    std::vector<GLfloat> vect;
+    for (int i = 0; i < cube_height; ++i) {
+        for (int j = 0; j < cube_width; ++j) {
+            vect = { RED, 1.0f, 0.0f, 0.0f, 1.0f, x, y, 0.0f };
+            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
+            vect = { GREEN, 1.0f, 0.0f, 0.0f, 1.0f, x, y - rect_size, 0.0f };
+            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
+            vect = { BLUE, 1.0f, 0.0f, 0.0f, 1.0f, x + rect_size, y - rect_size, 0.0f };
+            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
+            vect = { YELLOW, 1.0f, 0.0f, 0.0f, 1.0f, x + rect_size, y, 0.0f };
+            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
+            x += rect_size;
+            std::cout << x << ' ' << y << std::endl;
+            std::cout << x << ' ' << y - rect_size << std::endl;
+            std::cout << x + rect_size << ' ' << y - rect_size << std::endl;
+            std::cout << x + rect_size << ' ' << y << std::endl;
+        }
+        x = -0.5f;
+        y -= rect_size;
+    }
+    glInterleavedArrays(GL_C4F_N3F_V3F, 0, interleaved_array.data());
+    glDrawArrays(GL_QUADS, 0, cube_width * cube_height * 4);
+}
+
 void MainWindow::initializeGL()
 {
     loadVertexData();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glDepthRange(1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_COLOR_MATERIAL);
-
-    GLfloat light_ambient[] =  { 0.2, 0.2, 0.2, 1.0 };
-    GLfloat light_diffuse[] =  { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    GLfloat mat_shininess[]={50};
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, light_specular);
-    glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS, mat_shininess);
-    glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT, light_ambient);
-    glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE, light_diffuse);
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 }
 
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-    glInterleavedArrays(GL_C4F_N3F_V3F, 0, vertices.data());
-    glDrawArrays(GL_QUADS, 0, numberOfVertices);
+    drawLayer(0);
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -67,55 +76,20 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     update();
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    m_position = event->pos();
-    event->accept();
-}
-
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->buttons() == Qt::LeftButton){
-        m_position = event->pos();
-    }
-    event->accept();
-}
-
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() != Qt::LeftButton){
-        return;
-    }
-    diff = QVector2D(event->pos() - m_position);
-    m_position = event->pos();
-    glRotatef(diff.length() / 2.0f, diff.y(), diff.x(), 0.0f);
-    update();
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    switch(event->key()){
-        case Qt::Key_L:
-            if(glIsEnabled(GL_LIGHT0)){
-                glDisable(GL_LIGHT0);
-            }else{
-                glEnable(GL_LIGHT0);
-            }
-            update();
-            break;
-    }
-}
-
 void MainWindow::loadVertexData()
 {
-    QFile vertexDataFile("vertices.txt");
+    QFile vertexDataFile("data.txt");
     vertexDataFile.open(QFile::ReadOnly | QFile::Text);
 
     QTextStream in(&vertexDataFile);
-    in >> numberOfVertices;
-    vertices.resize(numberOfVertices * 10);
-    int i = 0;
-    while(!in.atEnd()){
-        in >> vertices[i++];
+    in >> cube_width >> cube_height >> cube_depth;
+    int size = cube_width * cube_height * cube_depth;
+
+    data.resize(size);
+    for (int i = 0; i < size; ++i) {
+        in >> data[i];
     }
+
+    int mx = qMax(cube_width, cube_height);
+    rect_size = 1.0f / mx;
 }

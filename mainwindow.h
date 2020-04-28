@@ -8,6 +8,9 @@
 #include <QVector>
 #include <QFile>
 #include <QTextStream>
+#include <QtGlobal>
+#include <iostream>
+#include <vector>
 
 class MainWindow : public QOpenGLWindow
 {
@@ -21,16 +24,17 @@ protected:
     void paintGL();
     void resizeGL(int w, int h);
     void resizeEvent(QResizeEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
 private:
-    QPoint m_position;
+    void drawLayer(int n);
     QVector2D diff;
     void loadVertexData();
-    QVector<GLfloat> vertices;
-    int numberOfVertices;
+    std::vector<GLfloat> data;
+    std::vector<GLfloat> interleaved_array;
+    int cube_width;
+    int cube_height;
+    int cube_depth;
+    GLfloat rect_size;
+
 };
 
 #endif // MAINWINDOW_H
