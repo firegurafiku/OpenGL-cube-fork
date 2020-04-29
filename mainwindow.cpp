@@ -19,21 +19,19 @@ void MainWindow::drawLayer(int n)
     GLfloat x = -0.5f;
     GLfloat y = 0.5f;
     std::vector<GLfloat> vect;
+    GLfloat idx = n * cube_width * cube_height;
     for (int i = 0; i < cube_height; ++i) {
         for (int j = 0; j < cube_width; ++j) {
-            vect = { RED, 1.0f, 0.0f, 0.0f, 1.0f, x, y, 0.0f };
+            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x, y, 0.0f };
             interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { GREEN, 1.0f, 0.0f, 0.0f, 1.0f, x, y - rect_size, 0.0f };
+            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x, y - rect_size, 0.0f };
             interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { BLUE, 1.0f, 0.0f, 0.0f, 1.0f, x + rect_size, y - rect_size, 0.0f };
+            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x + rect_size, y - rect_size, 0.0f };
             interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { YELLOW, 1.0f, 0.0f, 0.0f, 1.0f, x + rect_size, y, 0.0f };
+            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x + rect_size, y, 0.0f };
             interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
             x += rect_size;
-            std::cout << x << ' ' << y << std::endl;
-            std::cout << x << ' ' << y - rect_size << std::endl;
-            std::cout << x + rect_size << ' ' << y - rect_size << std::endl;
-            std::cout << x + rect_size << ' ' << y << std::endl;
+            ++idx;
         }
         x = -0.5f;
         y -= rect_size;
@@ -49,6 +47,8 @@ void MainWindow::initializeGL()
     glDepthRange(1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
