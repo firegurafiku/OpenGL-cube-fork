@@ -7,3 +7,4 @@ Makefile.Release
 release/moc_mainwindow.cpp
 release/moc_predefs.h
 *.exe
+*.txt
