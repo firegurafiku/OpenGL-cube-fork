@@ -8,6 +8,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
                 ui->openGLWidget, SLOT(zoom(int)));
+    ui->horizontalSlider->setMaximum(200);
 }
 
 MainWidget::~MainWidget()

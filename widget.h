@@ -27,6 +27,12 @@ protected:
     void resizeEvent(QResizeEvent *event);
 private:
     void loadVertexData();
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int curr_zoom;
+    QPoint m_position;
+    QVector2D diff;
     size_t cube_width;
     size_t cube_height;
     size_t cube_depth;

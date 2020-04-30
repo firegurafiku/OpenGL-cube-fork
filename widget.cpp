@@ -2,14 +2,17 @@
 
 void Widget::zoom(int val)
 {
+    curr_zoom = val;
     glLoadIdentity();
     glScalef( 1.0f + static_cast<GLfloat>(val) / 25,
                   1.0f + static_cast<GLfloat>(val) / 25, 1.0f);
+    this->setCursor(curr_zoom == 0 ? Qt::ArrowCursor : Qt::OpenHandCursor);
     update();
 }
 
 Widget::Widget(QWidget *parent)
-    : QGLWidget(parent)
+    : QGLWidget(parent),
+      curr_zoom(0)
 {
     loadVertexData();
 }
@@ -98,3 +101,39 @@ void Widget::loadVertexData()
         in >> data[i];
     }
 }
+
+void Widget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() != Qt::LeftButton) {
+        return;
+    }
+    if (curr_zoom > 0) {
+        this->setCursor(Qt::ClosedHandCursor);
+    }
+    m_position = event->pos();
+    event->accept();
+}
+
+void Widget::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->buttons() == Qt::LeftButton){
+        m_position = event->pos();
+    }
+    if (curr_zoom > 0) {
+        this->setCursor(Qt::OpenHandCursor);
+    }
+    event->accept();
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() != Qt::LeftButton || curr_zoom == 0){
+        return;
+    }
+    diff = QVector2D(event->pos() - m_position);
+    m_position = event->pos();
+    float d = curr_zoom / 10.0 + 1.0;
+    glTranslatef(diff.x() / 400 / d, - diff.y() / 400 / d, 0.0);
+    update();
+}
+
