@@ -15,7 +15,8 @@
 class Widget : public QGLWidget
 {
     Q_OBJECT
-
+public slots:
+    void zoom(int val);
 public:
     Widget(QWidget *parent = 0);
     ~Widget();

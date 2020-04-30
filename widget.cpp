@@ -1,5 +1,13 @@
 #include "widget.h"
 
+void Widget::zoom(int val)
+{
+    glLoadIdentity();
+    glScalef( 1.0f + (qreal) val / 25,
+                  1.0f + (qreal) val / 25, 1.0f);
+    update();
+}
+
 Widget::Widget(QWidget *parent)
     : QGLWidget(parent)
 {
@@ -29,7 +37,7 @@ void Widget::initializeGL()
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+    
     int curr_depth = 0;
     for (int i = 0; i < cube_height; ++i) {
         for (int j = 0; j < cube_width; ++j) {

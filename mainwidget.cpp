@@ -6,6 +6,8 @@ MainWidget::MainWidget(QWidget *parent) :
     ui(new Ui::MainWidget)
 {
     ui->setupUi(this);
+    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
+                ui->openGLWidget, SLOT(zoom(int)));
 }
 
 MainWidget::~MainWidget()
