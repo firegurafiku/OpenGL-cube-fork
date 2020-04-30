@@ -30,7 +30,7 @@ void MainWindow::initializeGL()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-    int curr_depth = 4;
+    int curr_depth = 0;
     for (int i = 0; i < cube_height; ++i) {
         for (int j = 0; j < cube_width; ++j) {
             int offset = curr_depth * cube_width * cube_height;
