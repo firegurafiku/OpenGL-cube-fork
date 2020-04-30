@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "mainwidget.h"
 #include <QApplication>
 #include <QSurfaceFormat>
 
@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     format.setDepthBufferSize(24);
     QSurfaceFormat::setDefaultFormat(format);
 
-    Widget w;
+    MainWidget w;
     w.show();
 
     return a.exec();

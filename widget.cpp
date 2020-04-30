@@ -3,7 +3,7 @@
 Widget::Widget(QWidget *parent)
     : QGLWidget(parent)
 {
-
+    loadVertexData();
 }
 
 Widget::~Widget()
@@ -13,7 +13,6 @@ Widget::~Widget()
 
 void Widget::initializeGL()
 {
-    loadVertexData();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glDepthRange(1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
