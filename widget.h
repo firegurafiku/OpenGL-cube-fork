@@ -27,9 +27,9 @@ protected:
     void resizeEvent(QResizeEvent *event);
 private:
     void loadVertexData();
-    int cube_width;
-    int cube_height;
-    int cube_depth;
+    size_t cube_width;
+    size_t cube_height;
+    size_t cube_depth;
     GLuint texBufferID;
     GLuint texCoordID;
     std::vector<GLfloat> data;

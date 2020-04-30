@@ -3,8 +3,8 @@
 void Widget::zoom(int val)
 {
     glLoadIdentity();
-    glScalef( 1.0f + (qreal) val / 25,
-                  1.0f + (qreal) val / 25, 1.0f);
+    glScalef( 1.0f + static_cast<GLfloat>(val) / 25,
+                  1.0f + static_cast<GLfloat>(val) / 25, 1.0f);
     update();
 }
 
@@ -38,19 +38,18 @@ void Widget::initializeGL()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     
-    int curr_depth = 0;
-    for (int i = 0; i < cube_height; ++i) {
-        for (int j = 0; j < cube_width; ++j) {
-            int offset = curr_depth * cube_width * cube_height;
-            int data_idx = offset + i * cube_width + j;
-            int bitmap_idx = ((cube_height - 1 - i) * cube_width + j) * 4;
+    size_t curr_depth = 0;
+    for (size_t i = 0; i < cube_height; ++i) {
+        for (size_t j = 0; j < cube_width; ++j) {
+            size_t offset = curr_depth * cube_width * cube_height;
+            size_t data_idx = offset + i * cube_width + j;
+            size_t bitmap_idx = ((cube_height - 1 - i) * cube_width + j) * 4;
             bitmap[bitmap_idx] = 1.0f;
             bitmap[bitmap_idx + 1] = 0.0f;
             bitmap[bitmap_idx + 2] = 0.0f;
             bitmap[bitmap_idx + 3] = data[data_idx];
         }
     }
-    int texture_size = qMax(cube_width, cube_height);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, cube_width,
            cube_height, 0, GL_RGBA, GL_FLOAT,
            bitmap.data());
@@ -91,11 +90,11 @@ void Widget::loadVertexData()
 
     QTextStream in(&vertexDataFile);
     in >> cube_width >> cube_height >> cube_depth;
-    int size = cube_width * cube_height * cube_depth;
+    size_t size = cube_width * cube_height * cube_depth;
 
     data.resize(size);
     bitmap.resize(cube_width * cube_height * 4);
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         in >> data[i];
     }
 }
