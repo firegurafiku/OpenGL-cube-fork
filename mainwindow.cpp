@@ -1,8 +1,4 @@
 #include "mainwindow.h"
-#define RED 1.0f, 0.0f, 0.0f
-#define GREEN 0.0f, 1.0f, 0.0f
-#define BLUE 0.0f, 0.0f, 1.0f
-#define YELLOW 1.0f, 1.0f, 0.0f
 
 MainWindow::MainWindow(QWidget *parent)
 {
@@ -14,50 +10,54 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::drawLayer(int n)
-{
-    GLfloat x = -0.5f;
-    GLfloat y = 0.5f;
-    std::vector<GLfloat> vect;
-    GLfloat idx = n * cube_width * cube_height;
-    for (int i = 0; i < cube_height; ++i) {
-        for (int j = 0; j < cube_width; ++j) {
-            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x, y, 0.0f };
-            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x, y - rect_size, 0.0f };
-            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x + rect_size, y - rect_size, 0.0f };
-            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            vect = { RED, data[idx], 0.0f, 0.0f, 1.0f, x + rect_size, y, 0.0f };
-            interleaved_array.insert(interleaved_array.end(), vect.begin(), vect.end());
-            x += rect_size;
-            ++idx;
-        }
-        x = -0.5f;
-        y -= rect_size;
-    }
-    glInterleavedArrays(GL_C4F_N3F_V3F, 0, interleaved_array.data());
-    glDrawArrays(GL_QUADS, 0, cube_width * cube_height * 4);
-}
-
 void MainWindow::initializeGL()
 {
     loadVertexData();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glDepthRange(1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_FLAT);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glGenTextures(1, &texCoordID);
+    glBindTexture(GL_TEXTURE_2D, texCoordID);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    int curr_depth = 4;
+    for (int i = 0; i < cube_height; ++i) {
+        for (int j = 0; j < cube_width; ++j) {
+            int offset = curr_depth * cube_width * cube_height;
+            int data_idx = offset + i * cube_width + j;
+            int bitmap_idx = ((cube_height - 1 - i) * cube_width + j) * 4;
+            bitmap[bitmap_idx] = 1.0f;
+            bitmap[bitmap_idx + 1] = 0.0f;
+            bitmap[bitmap_idx + 2] = 0.0f;
+            bitmap[bitmap_idx + 3] = data[data_idx];
+        }
+    }
+    int texture_size = qMax(cube_width, cube_height);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, cube_width,
+           cube_height, 0, GL_RGBA, GL_FLOAT,
+           bitmap.data());
 }
 
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    drawLayer(0);
+
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, -0.5, 0.0);
+        glTexCoord2f(1.0, 0.0); glVertex3f(0.5, -0.5, 0.0);
+        glTexCoord2f(1.0, 1.0); glVertex3f(0.5, 0.5, 0.0);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, 0.5, 0.0);
+    glEnd();
 }
 
 void MainWindow::resizeGL(int w, int h)
@@ -86,10 +86,8 @@ void MainWindow::loadVertexData()
     int size = cube_width * cube_height * cube_depth;
 
     data.resize(size);
+    bitmap.resize(cube_width * cube_height * 4);
     for (int i = 0; i < size; ++i) {
         in >> data[i];
     }
-
-    int mx = qMax(cube_width, cube_height);
-    rect_size = 1.0f / mx;
 }

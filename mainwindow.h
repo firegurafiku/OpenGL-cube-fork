@@ -25,16 +25,14 @@ protected:
     void resizeGL(int w, int h);
     void resizeEvent(QResizeEvent *event);
 private:
-    void drawLayer(int n);
-    QVector2D diff;
     void loadVertexData();
-    std::vector<GLfloat> data;
-    std::vector<GLfloat> interleaved_array;
     int cube_width;
     int cube_height;
     int cube_depth;
-    GLfloat rect_size;
-
+    GLuint texBufferID;
+    GLuint texCoordID;
+    std::vector<GLfloat> data;
+    std::vector<GLfloat> bitmap;
 };
 
 #endif // MAINWINDOW_H
