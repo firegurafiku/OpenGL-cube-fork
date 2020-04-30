@@ -30,6 +30,7 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent  *event);
     int curr_zoom;
     QPoint m_position;
     QVector2D diff;

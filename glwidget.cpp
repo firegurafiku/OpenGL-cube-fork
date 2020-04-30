@@ -137,3 +137,12 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
+void Widget::wheelEvent(QWheelEvent  *event)
+{
+    if (event->angleDelta().y() > 0) {
+        this->zoom(curr_zoom + 2);
+    } else {
+        this->zoom(curr_zoom - 2);
+    }
+}
+
