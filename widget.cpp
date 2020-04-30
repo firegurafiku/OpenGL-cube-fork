@@ -1,16 +1,17 @@
-#include "mainwindow.h"
+#include "widget.h"
 
-MainWindow::MainWindow(QWidget *parent)
+Widget::Widget(QWidget *parent)
+    : QGLWidget(parent)
 {
 
 }
 
-MainWindow::~MainWindow()
+Widget::~Widget()
 {
 
 }
 
-void MainWindow::initializeGL()
+void Widget::initializeGL()
 {
     loadVertexData();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -48,7 +49,7 @@ void MainWindow::initializeGL()
            bitmap.data());
 }
 
-void MainWindow::paintGL()
+void Widget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -60,7 +61,7 @@ void MainWindow::paintGL()
     glEnd();
 }
 
-void MainWindow::resizeGL(int w, int h)
+void Widget::resizeGL(int w, int h)
 {
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
     glMatrixMode(GL_PROJECTION);
@@ -70,13 +71,13 @@ void MainWindow::resizeGL(int w, int h)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event)
+void Widget::resizeEvent(QResizeEvent *event)
 {
     resizeGL(this->width(), this->height());
     update();
 }
 
-void MainWindow::loadVertexData()
+void Widget::loadVertexData()
 {
     QFile vertexDataFile("data.txt");
     vertexDataFile.open(QFile::ReadOnly | QFile::Text);

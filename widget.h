@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QOpenGLWindow>
+#include <QGLWidget>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QVector>
@@ -12,13 +12,13 @@
 #include <iostream>
 #include <vector>
 
-class MainWindow : public QOpenGLWindow
+class Widget : public QGLWidget
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    Widget(QWidget *parent = 0);
+    ~Widget();
 protected:
     void initializeGL();
     void paintGL();
