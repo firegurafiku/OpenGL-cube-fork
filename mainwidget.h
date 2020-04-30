@@ -13,9 +13,10 @@ class MainWidget : public QWidget
 public:
     explicit MainWidget(QWidget *parent = nullptr);
     ~MainWidget();
-
 private:
     Ui::MainWidget *ui;
+private slots:
+    void setMaxDepth(int d);
 };
 
 #endif // MAINWIDGET_H

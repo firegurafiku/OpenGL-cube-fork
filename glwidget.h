@@ -15,11 +15,11 @@
 class Widget : public QGLWidget
 {
     Q_OBJECT
-public slots:
-    void zoom(int val);
 public:
     Widget(QWidget *parent = 0);
     ~Widget();
+signals:
+    void setMaxDepthSignal(int d);
 protected:
     void initializeGL();
     void paintGL();
@@ -31,16 +31,21 @@ private:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent  *event);
+    void zoom(int val);
+    void createTexture();
     int curr_zoom;
     QPoint m_position;
     QVector2D diff;
     size_t cube_width;
     size_t cube_height;
     size_t cube_depth;
+    size_t curr_depth;
     GLuint texBufferID;
     GLuint texCoordID;
     std::vector<GLfloat> data;
     std::vector<GLfloat> bitmap;
+private slots:
+    void setDepth(int d);
 };
 
 #endif // MAINWINDOW_H

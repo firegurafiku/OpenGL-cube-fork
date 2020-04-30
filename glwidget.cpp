@@ -1,5 +1,13 @@
 #include "glwidget.h"
 
+Widget::Widget(QWidget *parent)
+    : QGLWidget(parent),
+      curr_zoom(0),
+      curr_depth(0)
+{
+    loadVertexData();
+}
+
 void Widget::zoom(int val)
 {
     curr_zoom = val;
@@ -10,16 +18,11 @@ void Widget::zoom(int val)
     update();
 }
 
-Widget::Widget(QWidget *parent)
-    : QGLWidget(parent),
-      curr_zoom(0)
+void Widget::setDepth(int d)
 {
-    loadVertexData();
-}
-
-Widget::~Widget()
-{
-
+    curr_depth = d;
+    createTexture();
+    update();
 }
 
 void Widget::initializeGL()
@@ -40,8 +43,11 @@ void Widget::initializeGL()
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    
-    size_t curr_depth = 0;
+    createTexture();
+}
+
+void Widget::createTexture()
+{
     for (size_t i = 0; i < cube_height; ++i) {
         for (size_t j = 0; j < cube_width; ++j) {
             size_t offset = curr_depth * cube_width * cube_height;
@@ -56,6 +62,7 @@ void Widget::initializeGL()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, cube_width,
            cube_height, 0, GL_RGBA, GL_FLOAT,
            bitmap.data());
+    setMaxDepthSignal(cube_depth - 1);
 }
 
 void Widget::paintGL()
@@ -146,3 +153,7 @@ void Widget::wheelEvent(QWheelEvent  *event)
     }
 }
 
+Widget::~Widget()
+{
+
+}

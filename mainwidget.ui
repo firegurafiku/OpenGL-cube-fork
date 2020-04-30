@@ -53,7 +53,7 @@
   <customwidget>
    <class>Widget</class>
    <extends>QOpenGLWidget</extends>
-   <header>widget.h</header>
+   <header>glwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
