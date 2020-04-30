@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "glwidget.h"
 
 void Widget::zoom(int val)
 {
