@@ -12,12 +12,12 @@
 #include <QString>
 #include <vector>
 
-class Widget : public QGLWidget
+class GLWidget : public QGLWidget
 {
     Q_OBJECT
 public:
-    Widget(QWidget *parent = 0);
-    ~Widget();
+    GLWidget(QWidget *parent = 0);
+    ~GLWidget();
     void readFile(const QString& file_name);
 signals:
     void setMaxDepthSignal(int d);

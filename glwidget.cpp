@@ -1,6 +1,6 @@
 #include "glwidget.h"
 
-Widget::Widget(QWidget *parent)
+GLWidget::GLWidget(QWidget *parent)
     : QGLWidget(parent),
       curr_zoom(0),
       curr_depth(0)
@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
 
 }
 
-void Widget::zoom(int val)
+void GLWidget::zoom(int val)
 {
     curr_zoom = val;
     glLoadIdentity();
@@ -18,14 +18,14 @@ void Widget::zoom(int val)
     update();
 }
 
-void Widget::setDepth(int d)
+void GLWidget::setDepth(int d)
 {
     curr_depth = d;
     createTexture();
     update();
 }
 
-void Widget::initializeGL()
+void GLWidget::initializeGL()
 {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glDepthRange(1.0, 0.0);
@@ -45,7 +45,7 @@ void Widget::initializeGL()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
-void Widget::createTexture()
+void GLWidget::createTexture()
 {
     for (size_t i = 0; i < cube_height; ++i) {
         for (size_t j = 0; j < cube_width; ++j) {
@@ -64,7 +64,7 @@ void Widget::createTexture()
     setMaxDepthSignal(cube_depth - 1);
 }
 
-void Widget::paintGL()
+void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -76,7 +76,7 @@ void Widget::paintGL()
     glEnd();
 }
 
-void Widget::resizeGL(int w, int h)
+void GLWidget::resizeGL(int w, int h)
 {
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
     glMatrixMode(GL_PROJECTION);
@@ -86,13 +86,13 @@ void Widget::resizeGL(int w, int h)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void Widget::resizeEvent(QResizeEvent *event)
+void GLWidget::resizeEvent(QResizeEvent *event)
 {
     resizeGL(this->width(), this->height());
     update();
 }
 
-void Widget::readFile(const QString& file_name)
+void GLWidget::readFile(const QString& file_name)
 {
     QFile vertexDataFile(file_name);
     vertexDataFile.open(QFile::ReadOnly | QFile::Text);
@@ -109,7 +109,7 @@ void Widget::readFile(const QString& file_name)
     createTexture();
 }
 
-void Widget::mousePressEvent(QMouseEvent *event)
+void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() != Qt::LeftButton) {
         return;
@@ -121,7 +121,7 @@ void Widget::mousePressEvent(QMouseEvent *event)
     event->accept();
 }
 
-void Widget::mouseReleaseEvent(QMouseEvent *event)
+void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton){
         m_position = event->pos();
@@ -132,7 +132,7 @@ void Widget::mouseReleaseEvent(QMouseEvent *event)
     event->accept();
 }
 
-void Widget::mouseMoveEvent(QMouseEvent *event)
+void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() != Qt::LeftButton || curr_zoom == 0){
         return;
@@ -144,7 +144,7 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
-void Widget::wheelEvent(QWheelEvent  *event)
+void GLWidget::wheelEvent(QWheelEvent  *event)
 {
     if (event->angleDelta().y() > 0) {
         this->zoom(curr_zoom + 2);
@@ -153,7 +153,7 @@ void Widget::wheelEvent(QWheelEvent  *event)
     }
 }
 
-Widget::~Widget()
+GLWidget::~GLWidget()
 {
 
 }
