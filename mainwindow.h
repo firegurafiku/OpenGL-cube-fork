@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <stdexcept>
+#include <QFileDialog>
 
 namespace Ui {
 class MainWindow;
@@ -15,7 +15,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+public slots:
+    void on_actionOpen_triggered();
 private:
     Ui::MainWindow *ui;
 private slots:

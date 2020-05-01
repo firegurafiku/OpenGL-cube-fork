@@ -5,7 +5,7 @@ Widget::Widget(QWidget *parent)
       curr_zoom(0),
       curr_depth(0)
 {
-    loadVertexData();
+
 }
 
 void Widget::zoom(int val)
@@ -43,7 +43,6 @@ void Widget::initializeGL()
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    createTexture();
 }
 
 void Widget::createTexture()
@@ -93,9 +92,9 @@ void Widget::resizeEvent(QResizeEvent *event)
     update();
 }
 
-void Widget::loadVertexData()
+void Widget::readFile(const QString& file_name)
 {
-    QFile vertexDataFile("data.txt");
+    QFile vertexDataFile(file_name);
     vertexDataFile.open(QFile::ReadOnly | QFile::Text);
 
     QTextStream in(&vertexDataFile);
@@ -107,6 +106,7 @@ void Widget::loadVertexData()
     for (size_t i = 0; i < size; ++i) {
         in >> data[i];
     }
+    createTexture();
 }
 
 void Widget::mousePressEvent(QMouseEvent *event)

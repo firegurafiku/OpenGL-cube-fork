@@ -9,7 +9,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QtGlobal>
-#include <iostream>
+#include <QString>
 #include <vector>
 
 class Widget : public QGLWidget
@@ -18,6 +18,7 @@ class Widget : public QGLWidget
 public:
     Widget(QWidget *parent = 0);
     ~Widget();
+    void readFile(const QString& file_name);
 signals:
     void setMaxDepthSignal(int d);
 protected:
@@ -26,7 +27,6 @@ protected:
     void resizeGL(int w, int h);
     void resizeEvent(QResizeEvent *event);
 private:
-    void loadVertexData();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
