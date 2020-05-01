@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GLWIDGET_H
+#define GLWIDGET_H
 
 #include <QMainWindow>
 #include <QGLWidget>
@@ -48,4 +48,4 @@ private slots:
     void setDepth(int d);
 };
 
-#endif // MAINWINDOW_H
+#endif // GLWIDGET_H

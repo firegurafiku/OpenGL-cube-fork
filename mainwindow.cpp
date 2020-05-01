@@ -1,10 +1,12 @@
-#include "mainwidget.h"
-#include "ui_mainwidget.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
-MainWidget::MainWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::MainWidget)
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);
+
     ui->setupUi(this);
 
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
@@ -20,23 +22,24 @@ MainWidget::MainWidget(QWidget *parent) :
                 this, SLOT(setMaxDepth(int)));
 }
 
-MainWidget::~MainWidget()
+MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWidget::setMaxDepth(int d)
+void MainWindow::setMaxDepth(int d)
 {
     this->ui->horizontalSlider->setMaximum(d);
     this->ui->spinBox->setMaximum(d);
 }
 
-void MainWidget::depthSpinBoxChanged(int d)
+void MainWindow::depthSpinBoxChanged(int d)
 {
     ui->horizontalSlider->setValue(d);
 }
 
-void MainWidget::sliderChanged(int d)
+void MainWindow::sliderChanged(int d)
 {
     ui->spinBox->setValue(d);
 }
+

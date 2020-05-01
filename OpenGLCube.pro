@@ -27,12 +27,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwidget.cpp \
-        glwidget.cpp
+        glwidget.cpp \
+        mainwindow.cpp
 
 HEADERS += \
-    mainwidget.h \
-    glwidget.h
+    glwidget.h \
+    mainwindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -40,4 +40,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
-    mainwidget.ui
+    mainwindow.ui
