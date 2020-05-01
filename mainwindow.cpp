@@ -47,5 +47,7 @@ void MainWindow::on_actionOpen_triggered()
     QString file_name = QFileDialog::getOpenFileName(this, "Open...");
     if (file_name != "") {
         ui->openGLWidget->readFile(file_name);
+        ui->horizontalSlider->setDisabled(false);
+        ui->spinBox->setDisabled(false);
     }
 }
