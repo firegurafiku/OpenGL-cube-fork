@@ -26,17 +26,6 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="0">
     <widget class="Widget" name="openGLWidget">
      <property name="sizePolicy">
@@ -46,6 +35,30 @@
       </sizepolicy>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QSlider" name="horizontalSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>99</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
