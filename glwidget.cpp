@@ -67,13 +67,22 @@ void GLWidget::createTexture()
 void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glBegin(GL_QUADS);
-        glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, -0.5, 0.0);
-        glTexCoord2f(1.0, 0.0); glVertex3f(0.5, -0.5, 0.0);
-        glTexCoord2f(1.0, 1.0); glVertex3f(0.5, 0.5, 0.0);
-        glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, 0.5, 0.0);
-    glEnd();
+    float ratio = static_cast<float>(cube_width) / cube_height;
+    if (ratio < 1) {
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0, 0.0); glVertex3f(-0.5f * ratio, -0.5, 0.0);
+            glTexCoord2f(1.0, 0.0); glVertex3f(0.5f * ratio, -0.5, 0.0);
+            glTexCoord2f(1.0, 1.0); glVertex3f(0.5f * ratio, 0.5, 0.0);
+            glTexCoord2f(0.0, 1.0); glVertex3f(-0.5f * ratio, 0.5, 0.0);
+        glEnd();
+    } else {
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, -0.5f / ratio, 0.0);
+            glTexCoord2f(1.0, 0.0); glVertex3f(0.5, -0.5f / ratio, 0.0);
+            glTexCoord2f(1.0, 1.0); glVertex3f(0.5, 0.5f / ratio, 0.0);
+            glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, 0.5f / ratio, 0.0);
+        glEnd();
+    }
 }
 
 void GLWidget::resizeGL(int w, int h)
@@ -106,6 +115,7 @@ void GLWidget::readFile(const QString& file_name)
     for (size_t i = 0; i < size; ++i) {
         in >> data[i];
     }
+    vertexDataFile.close();
     createTexture();
 }
 
