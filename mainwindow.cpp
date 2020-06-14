@@ -44,7 +44,7 @@ void MainWindow::sliderChanged(int d)
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString file_name = QFileDialog::getOpenFileName(this, "Open...");
+    QString file_name = QFileDialog::getOpenFileName(this, "Открыть...");
     if (file_name != "") {
         ui->openGLWidget->readFile(file_name);
         ui->horizontalSlider->setDisabled(false);

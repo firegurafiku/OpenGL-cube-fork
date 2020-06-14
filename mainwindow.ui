@@ -68,7 +68,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="actionOpen"/>
    </widget>
@@ -76,7 +76,7 @@
   </widget>
   <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>Открыть</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
