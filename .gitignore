@@ -4,8 +4,10 @@ Makefile
 Makefile.Debug
 Makefile.Release
 *.o
+build/
 release/moc_mainwindow.cpp
 release/moc_predefs.h
 *.exe
 *.txt
 *autosave
+!CMakeLists.txt
