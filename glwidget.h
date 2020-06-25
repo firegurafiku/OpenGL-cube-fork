@@ -11,6 +11,8 @@
 #include <QtGlobal>
 #include <QString>
 #include <vector>
+#include <optional>
+#include <netcdf>
 
 class GLWidget : public QGLWidget
 {
@@ -40,11 +42,16 @@ private:
     size_t cube_height;
     size_t cube_depth;
     size_t curr_depth;
+    int curr_parameter_kind = 0;
+    int curr_slice_axis = 0;
     GLuint texBufferID;
     GLuint texCoordID;
+    std::optional<netCDF::NcFile> dataFile;
     std::vector<GLfloat> data;
     std::vector<GLfloat> bitmap;
-private slots:
+public slots:
+    void setParameterKind(int parameterKindIdx);
+    void setSliceAxis(int sliceAxisIdx);
     void setDepth(int d);
 };
 

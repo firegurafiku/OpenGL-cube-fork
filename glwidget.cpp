@@ -18,6 +18,16 @@ void GLWidget::zoom(int val)
     update();
 }
 
+void GLWidget::setParameterKind(int parameterKindIdx)
+{
+
+}
+
+void GLWidget::setSliceAxis(int sliceAxisIdx)
+{
+
+}
+
 void GLWidget::setDepth(int d)
 {
     curr_depth = d;
@@ -47,6 +57,76 @@ void GLWidget::initializeGL()
 
 void GLWidget::createTexture()
 {
+    netCDF::NcVar var;
+    switch (curr_parameter_kind) {
+        case 0: var = dataFile->getVar("epsilon"); break;
+        case 1: var = dataFile->getVar("epsilon"); break;
+        case 2: var = dataFile->getVar("epsilon"); break;
+        case 3: var = dataFile->getVar("mu"); break;
+        case 4: var = dataFile->getVar("mu"); break;
+        case 5: var = dataFile->getVar("mu"); break;
+        case 6: var = dataFile->getVar("sigmaX"); break;
+        case 7: var = dataFile->getVar("sigmaY"); break;
+        case 8: var = dataFile->getVar("sigmaZ"); break;
+    }
+
+    std::size_t numDataPoints;
+    std::size_t textureWidth, textureHeight;
+    std::vector<std::size_t> start, count;
+
+    switch (curr_slice_axis) {
+        case 0:
+            if (curr_depth >= cube_width)
+                curr_depth = cube_width - 1;
+
+            emit setMaxDepthSignal(cube_width);
+
+            numDataPoints = cube_height * cube_depth;
+            start = {curr_depth, 0, 0};
+            count = {1, cube_height, cube_depth};
+            textureWidth = cube_height;
+            textureHeight = cube_depth;
+            break;
+
+        case 1:
+            if (curr_depth >= cube_height)
+                curr_depth = cube_height - 1;
+
+            emit setMaxDepthSignal(cube_height);
+
+            numDataPoints = cube_width * cube_depth;
+            start = {0, curr_depth, 0};
+            count = {cube_width, 1, cube_depth};
+            textureWidth = cube_width;
+            textureHeight = cube_depth;
+            break;
+
+        case 2:
+            if (curr_depth >= cube_depth)
+                curr_depth = cube_depth - 1;
+
+            emit setMaxDepthSignal(cube_depth);
+
+            numDataPoints = cube_width * cube_depth;
+            start = {0, 0, curr_depth};
+            count = {cube_width, cube_height, 1};
+            textureWidth = cube_width;
+            textureHeight = cube_height;
+            break;
+    }
+
+    bitmap.resize(numDataPoints);
+    var.getVar(start, count, &bitmap[0]);
+
+    for (auto& f: bitmap)
+        f = f - 1.0f;
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth,
+           textureHeight, 0, GL_RED, GL_FLOAT,
+           bitmap.data());
+
+    /*
+
     for (size_t i = 0; i < cube_height; ++i) {
         for (size_t j = 0; j < cube_width; ++j) {
             size_t offset = curr_depth * cube_width * cube_height;
@@ -62,6 +142,7 @@ void GLWidget::createTexture()
            cube_height, 0, GL_RGBA, GL_FLOAT,
            bitmap.data());
     setMaxDepthSignal(cube_depth - 1);
+    */
 }
 
 void GLWidget::paintGL()
@@ -103,19 +184,13 @@ void GLWidget::resizeEvent(QResizeEvent *event)
 
 void GLWidget::readFile(const QString& file_name)
 {
-    QFile vertexDataFile(file_name);
-    vertexDataFile.open(QFile::ReadOnly | QFile::Text);
+    using namespace netCDF;
+    dataFile.emplace(file_name.toStdString(), NcFile::read);
 
-    QTextStream in(&vertexDataFile);
-    in >> cube_width >> cube_height >> cube_depth;
-    size_t size = cube_width * cube_height * cube_depth;
+    cube_width  = dataFile->getDim("Nx").getSize();
+    cube_height = dataFile->getDim("Ny").getSize();
+    cube_depth  = dataFile->getDim("Nz").getSize();
 
-    data.resize(size);
-    bitmap.resize(cube_width * cube_height * 4);
-    for (size_t i = 0; i < size; ++i) {
-        in >> data[i];
-    }
-    vertexDataFile.close();
     createTexture();
 }
 

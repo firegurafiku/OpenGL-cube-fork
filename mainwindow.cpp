@@ -18,6 +18,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->openGLWidget, SIGNAL(setMaxDepthSignal(int)),
                 this, SLOT(setMaxDepth(int)));
+
+    //connect(ui->uxParameterComboBox, SIGNAL(currentIndexChanged))
+    connect(ui->uxSliceAxisX, &QRadioButton::toggled, [this] (bool ena) {
+        if (ena) ui->openGLWidget->setSliceAxis(0);
+    });
+    connect(ui->uxSliceAxisY, &QRadioButton::toggled, [this] (bool ena) {
+        if (ena) ui->openGLWidget->setSliceAxis(1);
+    });
+    connect(ui->uxSliceAxisZ, &QRadioButton::toggled, [this] (bool ena) {
+        if (ena) ui->openGLWidget->setSliceAxis(2);
+    });
 }
 
 MainWindow::~MainWindow()

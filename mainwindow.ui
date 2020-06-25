@@ -31,6 +31,99 @@
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Величина</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="uxParameterComboBox">
+        <item>
+         <property name="text">
+          <string>εx</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>εy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>εz</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>μx</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>μy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>σx</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>σy</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>σz</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Срез поперёк оси</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="uxSliceAxisX">
+        <property name="text">
+         <string>X</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="uxSliceAxisY">
+        <property name="text">
+         <string>Y</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="uxSliceAxisZ">
+        <property name="text">
+         <string>Z</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>слой №</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QSlider" name="horizontalSlider">
         <property name="enabled">
          <bool>false</bool>
@@ -63,7 +156,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
